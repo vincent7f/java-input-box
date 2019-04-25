@@ -35,21 +35,23 @@ public class InputBox extends JFrame {
 		BoxLayout layout = new BoxLayout(panel, BoxLayout.Y_AXIS);
 		panel.setLayout(layout);
 		
-		JPanel buttonPael = new JPanel();
-		panel.add(buttonPael);
+		JPanel buttonPanel = new JPanel();
+		panel.add(buttonPanel);
 		
 		JCheckBox checkBox = new JCheckBox("autocopy");
-		buttonPael.add(checkBox);
+		buttonPanel.add(checkBox);
 		checkBox.setSelected(true);
 		
-		JButton button = new JButton("Copy to Clipboard");
-		buttonPael.add(button);
+		JButton copyButton = new JButton("Copy to Clipboard");
+		buttonPanel.add(copyButton);
 
+		JButton clearButton = new JButton("Clear text");
+		buttonPanel.add(clearButton);
 		
 		textArea = new JTextArea();
 		panel.add(textArea);
 		
-		button.addMouseListener(new MouseListener() {
+		copyButton.addMouseListener(new MouseListener() {
 			
 			@Override
 			public void mouseReleased(MouseEvent e) {
@@ -79,6 +81,39 @@ public class InputBox extends JFrame {
 			public void mouseClicked(MouseEvent e) {
 				thisObj.copyToClipboard();
 			}
+		});
+		
+		clearButton.addMouseListener(new MouseListener() {
+
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				textArea.setText("");
+			}
+
+			@Override
+			public void mousePressed(MouseEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+
+			@Override
+			public void mouseReleased(MouseEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+
+			@Override
+			public void mouseEntered(MouseEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+
+			@Override
+			public void mouseExited(MouseEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+			
 		});
 		
 		// copy content to clipboard if autocopy is checked when user switch to other app.
