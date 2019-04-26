@@ -8,12 +8,15 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowFocusListener;
+
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JTextArea;
+
+import sun.awt.im.InputMethodManager;
 
 
 public class InputBox extends JFrame {
@@ -48,77 +51,38 @@ public class InputBox extends JFrame {
 		JButton clearButton = new JButton("Clear text");
 		buttonPanel.add(clearButton);
 		
+		JButton showIMEButton = new JButton("Show IME");
+		buttonPanel.add(showIMEButton);
+		
 		textArea = new JTextArea();
 		panel.add(textArea);
 		
-		copyButton.addMouseListener(new MouseListener() {
-			
-			@Override
-			public void mouseReleased(MouseEvent e) {
-				// TODO Auto-generated method stub
-				
-			}
-			
-			@Override
-			public void mousePressed(MouseEvent e) {
-				// TODO Auto-generated method stub
-				
-			}
-			
-			@Override
-			public void mouseExited(MouseEvent e) {
-				// TODO Auto-generated method stub
-				
-			}
-			
-			@Override
-			public void mouseEntered(MouseEvent e) {
-				// TODO Auto-generated method stub
-				
-			}
-			
+		copyButton.addMouseListener(new ClickMouseListener() {			
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				thisObj.copyToClipboard();
 			}
 		});
 		
-		clearButton.addMouseListener(new MouseListener() {
-
+		clearButton.addMouseListener(new ClickMouseListener() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				textArea.setText("");
-			}
-
-			@Override
-			public void mousePressed(MouseEvent e) {
-				// TODO Auto-generated method stub
-				
-			}
-
-			@Override
-			public void mouseReleased(MouseEvent e) {
-				// TODO Auto-generated method stub
-				
-			}
-
-			@Override
-			public void mouseEntered(MouseEvent e) {
-				// TODO Auto-generated method stub
-				
-			}
-
-			@Override
-			public void mouseExited(MouseEvent e) {
-				// TODO Auto-generated method stub
-				
-			}
-			
+			}		
 		});
 		
+		showIMEButton.addMouseListener(new ClickMouseListener() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				InputMethodManager  imm = InputMethodManager.getInstance();
+				imm.notifyChangeRequestByHotKey(panel);
+			}
+		
+		});
+		
+		
 		// copy content to clipboard if autocopy is checked when user switch to other app.
-		this.addWindowFocusListener( new WindowFocusListener() {
-			
+		this.addWindowFocusListener( new WindowFocusListener() {			
 			@Override
 			public void windowLostFocus(WindowEvent e) {
 				if (checkBox.isSelected()) {
@@ -146,4 +110,31 @@ public class InputBox extends JFrame {
 		frame.setVisible(true);
 	}
 
+}
+
+abstract class ClickMouseListener implements MouseListener {
+	@Override
+	public void mousePressed(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void mouseReleased(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void mouseEntered(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void mouseExited(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+	
 }
