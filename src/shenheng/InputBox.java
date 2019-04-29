@@ -26,6 +26,7 @@ public class InputBox extends JFrame {
 	 */
 	private static final long serialVersionUID = -8406796509091822666L;
 	private JTextArea textArea;
+	protected boolean isFirstTime = true;
 
 	public InputBox() {
 		this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
@@ -74,8 +75,7 @@ public class InputBox extends JFrame {
 		showIMEButton.addMouseListener(new ClickMouseListener() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				InputMethodManager  imm = InputMethodManager.getInstance();
-				imm.notifyChangeRequestByHotKey(panel);
+				thisObj.showIMESelection();
 			}
 		
 		});
@@ -92,10 +92,17 @@ public class InputBox extends JFrame {
 			
 			@Override
 			public void windowGainedFocus(WindowEvent e) {
-				// TODO Auto-generated method stub
-				
+				if (thisObj.isFirstTime ) {
+					thisObj.showIMESelection();
+					thisObj.isFirstTime = false;
+				}
 			}
 		} );
+	}
+
+	public void showIMESelection() {
+		InputMethodManager  imm = InputMethodManager.getInstance();
+		imm.notifyChangeRequestByHotKey(textArea);
 	}
 	
 	protected void copyToClipboard() {
